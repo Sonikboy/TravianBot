@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Awesomium.Core;
 
 namespace TravBot
 {
@@ -54,6 +55,30 @@ namespace TravBot
         public Boolean checkIfBrowserContains(String text)
         {
             return getBrowserSource().Contains(text);
+        }
+
+        /// <summary>
+        /// method gets source of given path
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public String getSourceOfPath(String path)
+        {
+            FrameEventHandler handler = null;
+            handler = delegate (object sender, FrameEventArgs e)
+            {
+                if( e.IsMainFrame )
+                    this.aBrowser.LoadingFrameComplete -= handler;
+                //wait for main frame
+            };
+            this.aBrowser.LoadingFrameComplete += handler;
+            this.aBrowser.Source = new Uri("http://" + this.serverAddr.Text + "/" + path);
+            return getBrowserSource();
+        }
+
+        private void loginPanel_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

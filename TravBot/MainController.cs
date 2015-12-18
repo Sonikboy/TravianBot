@@ -49,17 +49,6 @@ namespace TravBot
             }
         }
 
-        #region loadVillageData
-        private void villageData_Load(object sender, Awesomium.Core.FrameEventArgs e)
-        {
-
-            this.mainView.aBrowser.LoadingFrameComplete -= villageData_Load;
-
-
-        }
-        #endregion
-
-
         #region loginStuff
         /// <summary>
         /// login event fires when button pushed
@@ -83,15 +72,14 @@ namespace TravBot
                     this.mainView.aBrowser.LoadingFrameComplete -= loginHandler2;
                     if (this.mainView.checkIfBrowserContains("resources.production"))
                     {
-                        //login succes disabele fields
+                        //login success disabele fields
                         this.mainView.userPass.Enabled = false;
                         this.mainView.userName.Enabled = false;
                         this.mainView.serverAddr.Enabled = false;
                         this.mainView.login.Enabled = false;
 
-                        //subscribing to buildInit event
-                        this.mainView.aBrowser.LoadingFrameComplete += this.villageData_Load;
-                        this.mainView.aBrowser.Source = new Uri("http://" + this.mainView.serverAddr.Text + "/dorf1.php");
+                        //calling load_villageData method.
+                        mainModel.load_villageData(this.mainView.getSourceOfPath);
                     }
                 }
             };
